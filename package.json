@@ -1,7 +1,7 @@
 {
-  "name": "PingPong",
+  "name": "Sensors",
   "version": "0.0.1",
-  "description": "Ping Pong",
+  "description": "Sensors",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
