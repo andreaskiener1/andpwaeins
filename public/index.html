@@ -1,0 +1,59 @@
+<html>
+<head>
+  <style>
+    body{font-size:2em;}
+  </style>
+
+<h2>Sensoren von mobilen Geräten auslesen</h2>
+  <b>Kompass</b>
+<p>alpha: <span id="datenAlpha"></span></p>
+<p>beta: <span id="datenBeta"></span></p>
+<p>gamma: <span id="datenGamma"></span></p>
+  
+<p><b>Beschleunigung</b></p> 
+<p> x-Beschleunigung: <span id="xaccel"></span></p>
+ <p> x-Beschleunigung: <span id="yaccel"></span></p>
+  <p> x-Beschleunigung: <span id="zaccel"></span></p>
+<p><b>Lage</b></p> 
+<p> x-Orientierung: <span id="xgyro"></span></p>
+<p> y-Orientierung: <span id="ygyro"></span></p>
+<p> z-Orientierung: <span id="zgyro"></span></p>
+  
+<script>
+  
+function ausrichtungAuslesen(ereignis) {
+    var winkelAlpha = Math.round(ereignis.alpha ) ; 
+    var winkelBeta = Math.round(ereignis.beta);
+    var winkelGamma = Math.round(ereignis.gamma ) ;
+    document.getElementById('datenAlpha').innerHTML = winkelAlpha;
+    document.getElementById('datenBeta').innerHTML = winkelBeta;
+    document.getElementById('datenGamma').innerHTML = winkelGamma;
+ 
+}
+
+window.onload = function() {
+  window.addEventListener("deviceorientation", ausrichtungAuslesen, false);
+}
+  
+
+  
+window.ondevicemotion = function(ereignis){
+    //console.log(ereignis);
+    var xaccel = Math.round(ereignis.acceleration.x * 100);
+  var yaccel = Math.round(ereignis.acceleration.y * 100);
+  //var zaccel = Math.round(ereignis.acceleration.z * 100);
+    document.getElementById("xaccel").innerHTML = xaccel;
+   document.getElementById("yaccel").innerHTML = yaccel;
+   document.getElementById("zaccel").innerHTML = Math.round(ereignis.acceleration.z * 100);
+  
+    var xgyro = Math.round(ereignis.accelerationIncludingGravity.x * 100) / 100;
+    document.getElementById("xgyro").innerHTML = xgyro;
+   document.getElementById("ygyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.y * 100) / 100;;
+  document.getElementById("zgyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.z * 100) / 100;
+}
+  
+
+  
+</script>
+</body>
+</html>
