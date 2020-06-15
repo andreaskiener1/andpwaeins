@@ -24,7 +24,7 @@ var cacheName = 'v1';
 
 // Assesto catche
 var assetsToCache = [
-  '/index.html',
+  '/index.html'
   
 ];
 
