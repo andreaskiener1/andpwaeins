@@ -10,6 +10,8 @@
 <canvas id="MeinCanvas" width="400" height="600"></canvas>
 <script>
 //Als globale Variablen deklariert um mit allen Functions darauf zugreifen zu können
+	document.body.style.overflow = 'hidden';
+	
 	var x = 20;
 	var y = 200;
 	var dx = 0.5;
@@ -28,7 +30,7 @@
 	var HEIGHT = canv.height;
 
 	function init(){
-		
+		/*
 		document.addEventListener('keydown', function(event){
 			console.log(event);
 			console.log(event.key);
@@ -45,8 +47,10 @@
 			
 		
 		});
-		draw();
+		*/
 		timer = setInterval(draw, 5);
+		draw();
+	
 	}
 
 	function ball(x, y , r){
