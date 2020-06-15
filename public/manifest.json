@@ -1,10 +1,9 @@
 {
-	"dir" : "ltr",
 	"lang" : "German",
 	"name" : "Ball",
-	"scope" : "/andpwaeins/public/index.html",
+	"scope" : "/",
 	"display" : "standalone",
-	"start_url" : "https://andreaskiener1.github.io/andpwaeins/public/index.html",
+	"start_url" : "index.html",
 	"short_name" : "Ball",
 	"theme_color" : "transparent",
 	"description" : "",
@@ -22,7 +21,7 @@
  
 	
 	],
-	"url" : "https://andreaskiener1.github.io/andpwaeins/public/index.html",
+	"url" : "index.html",
 	"screenshots" : [],
 	"generated" : "true"
 }
