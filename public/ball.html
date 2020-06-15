@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset=utf-8 />
+<title>Canvas</title>
+</head>
+
+<body>
+<canvas id="MeinCanvas" width="400" height="600"></canvas>
+<script>
+//Als globale Variablen deklariert um mit allen Functions darauf zugreifen zu können
+	var x = 20;
+	var y = 200;
+	var dx = 0.5;
+	var dy = 1;
+	var R =10;
+	var context = MeinCanvas.getContext('2d');
+		
+	var padlx = 50;
+	var counter = 0;
+	var timer;
+	
+	var canv = document.getElementById("MeinCanvas");
+	canv.width = document.documentElement.clientWidth;
+	canv.height = document.documentElement.clientHeight;
+	var WIDTH = canv.width;
+	var HEIGHT = canv.height;
+
+	function init(){
+		
+		document.addEventListener('keydown', function(event){
+			console.log(event);
+			console.log(event.key);
+			if(event.key == 'ArrowLeft' & padlx > 0){
+				padlx = padlx - 5;
+			}
+			if(event.key == 'ArrowRight' & padlx + 150 < WIDTH){
+				padlx = padlx + 5;
+			}
+			if(event.key == 'Enter'){
+				 //timer = setInterval(draw, 5);
+				
+			}
+			
+		
+		});
+		draw();
+		timer = setInterval(draw, 5);
+	}
+
+	function ball(x, y , r){
+		context.fillStyle = "#00A3B1";
+		context.beginPath();
+		context.arc(x, y, r, 0, Math.PI * 2, true);
+		context.closePath();
+		context.fill();
+	}
+	
+	function padl(x){
+		context.fillStyle = "#B1A308";
+		//context.beginPath();
+		context.fillRect(x, 550, 150, 20);
+		//context.closePath();
+		//context.fill();
+	}
+
+	function clear(){
+		//context.clearRect(0, 0, WIDTH, HEIGHT);
+		context.fillStyle = "lightgrey";
+		context.fillRect(0, 0,  WIDTH, HEIGHT);
+	}
+
+
+	function draw(){
+		
+		clear()
+		padl(padlx);
+		ball(x, y, 10)
+		if (x > WIDTH - R || x < 0 + R){
+			dx = -dx;
+		}
+		if (y > HEIGHT - R || y < 0 + R){
+			dy = -dy;
+		}
+		
+		if (y > HEIGHT - (R + 1)){
+		
+			var ausgabe = "GAME OVER, SCORE: " + counter;
+			context.font = "25px Arial";
+			context.fillText(ausgabe, 10, 50);
+			clearInterval(timer);
+			timer = 0;//zur Sicherheit auch noch null setzten
+		}
+		
+		if( y > (550 - 20 + R) & y < (550 + 20 + R) & x > padlx & x < padlx + 150 )
+		{
+			dy = -dy;
+			counter++;
+			console.log(counter);
+		}
+		
+		x = x + dx;
+		y = y - dy;
+	}
+
+	init();
+
+
+</script>
+</body>
+
+</html>
