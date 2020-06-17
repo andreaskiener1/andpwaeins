@@ -1,111 +1,77 @@
-// This is the "Offline copy of assets" service worker
-/*
-const CACHE = "pwabuilder-offline";
+'use strict';
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js');
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
 
-workbox.routing.registerRoute(
-  new RegExp('/*'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: CACHE
-  })
-);
-*/
-// You have to supply a name for your cache, this will
-// allow us to remove an old one to avoid hitting disk
-// space limits and displaying old resources
-var cacheName = 'v1';
+var cacheVersion = 1;
 
-// Assesto catche
-var assetsToCache = [
-  '/index.html'
-  
-];
+var currentCache = {
 
-self.addEventListener('install', function(event) {
-  // waitUntil() ensures that the Service Worker will not
-  // install until the code inside has successfully occurred
+  offline: 'offline-cache' + cacheVersion
+
+};
+
+const offlineUrl = 'index.html';
+
+
+
+this.addEventListener('install', event => {
+
   event.waitUntil(
-    // Create cache with the name supplied above and
-    // return a promise for it
-    caches.open(cacheName).then(function(cache) {
-        // Important to `return` the promise here to have `skipWaiting()`
-        // fire after the cache has been updated.
-        return cache.addAll(assetsToCache);
-    }).then(function() {
-      // `skipWaiting()` forces the waiting ServiceWorker to become the
-      // active ServiceWorker, triggering the `onactivate` event.
-      // Together with `Clients.claim()` this allows a worker to take effect
-      // immediately in the client(s).
-      return self.skipWaiting();
+
+    caches.open(currentCache.offline).then(function(cache) {
+
+      return cache.addAll([
+
+          './images/icon.svg',
+
+          offlineUrl
+
+      ]);
+
     })
+
   );
+
 });
 
-// Activate event
-// Be sure to call self.clients.claim()
-self.addEventListener('activate', function(event) {
-	// `claim()` sets this worker as the active worker for all clients that
-	// match the workers scope and triggers an `oncontrollerchange` event for
-	// the clients.
-	return self.clients.claim();
-});
-/*
-self.addEventListener('fetch', function(event) {
-  // Get current path
-  var requestUrl = new URL(event.request.url);
 
-  // Save all resources on origin path only
-  if (requestUrl.origin === location.origin) {
-      if (requestUrl.pathname === '/') {
-      event.respondWith(
-        // Open the cache created when install
-        caches.open(cacheName).then(function(cache) {
-          // Go to the network to ask for that resource
-          return fetch(event.request).then(function(networkResponse) {
-            // Add a copy of the response to the cache (updating the old version)
-            cache.put(event.request, networkResponse.clone());
-            // Respond with it
-            return networkResponse;
-          }).catch(function() {
-            // If there is no internet connection, try to match the request
-            // to some of our cached resources
-            return cache.match(event.request);
+
+this.addEventListener('fetch', event => {
+
+  // request.mode = navigate isn't supported in all browsers
+
+  // so include a check for Accept: text/html header.
+
+  if (event.request.mode === 'navigate' || (event.request.method === 'GET' && event.request.headers.get('accept').includes('text/html'))) {
+
+        event.respondWith(
+
+          fetch(event.request.url).catch(error => {
+
+              // Return the offline page
+
+              return caches.match(offlineUrl);
+
           })
-        })
-      );
-    }
+
+    );
+
   }
 
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
-});
-*/
-self.addEventListener('fetch', function(event) {
-  console.log('Fetch event for ', event.request.url);
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        console.log('Found ', event.request.url, ' in cache');
-        return response;
+  else{
+
+        // Respond with everything else if we can
+
+        event.respondWith(caches.match(event.request)
+
+                        .then(function (response) {
+
+                        return response || fetch(event.request);
+
+                    })
+
+            );
+
       }
-      console.log('Network request for ', event.request.url);
-      return fetch(event.request)
 
-    }).catch(function(error) {
-
-      return caches.match('index.html');
-
-    })
-  );
 });
-
