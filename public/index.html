@@ -62,6 +62,7 @@ if ('serviceWorker' in navigator) {
 	var padlx = 50;
 	var counter = 0;
 	var timer;
+	startflag = true;
 	
 	var canv = document.getElementById("MeinCanvas");
 	canv.width = document.documentElement.clientWidth;
@@ -98,8 +99,9 @@ if ('serviceWorker' in navigator) {
   			var yaccel = Math.round(ereignis.acceleration.y);
 			var zaccel = Math.round(ereignis.acceleration.z);
 			
-			if(xaccel^2 + yaccel^2 + zaccel^2 > 10){ 
+			if(xaccel^2 + yaccel^2 + zaccel^2 > 10 && startflag ){ 
 				timer = setInterval(draw, 5);
+				startflag = false;
 			}
 			
 			
@@ -151,6 +153,7 @@ if ('serviceWorker' in navigator) {
 			context.fillText(ausgabe, 10, 50);
 			clearInterval(timer);
 			timer = 0;//zur Sicherheit auch noch null setzten
+			starflag = true;
 		}
 		
 		if( y > (HEIGHT -50 - 20 + R) & y < (HEIGHT -50 + 20 + R) & x > padlx & x < padlx + 150 )
