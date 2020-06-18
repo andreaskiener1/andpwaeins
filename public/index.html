@@ -70,7 +70,7 @@ if ('serviceWorker' in navigator) {
 	var HEIGHT = canv.height;
 
 	function init(){
-		/*
+		
 		document.addEventListener('keydown', function(event){
 			console.log(event);
 			console.log(event.key);
@@ -87,12 +87,16 @@ if ('serviceWorker' in navigator) {
 			
 		
 		});
-		*/
+		
 		window.ondevicemotion = function(ereignis){
 		
  
-    var xgyro = Math.round(ereignis.accelerationIncludingGravity.x * 100) / 100;
+   			var xgyro = Math.round(ereignis.accelerationIncludingGravity.x * 100) / 100;
 			padlx = padlx + xgyro;
+			
+			var ausgabe = "GAME OVER, SCORE: " + xgyro;
+			context.font = "25px Arial";
+			context.fillText(ausgabe, 10, 50);
     //document.getElementById("xgyro").innerHTML = xgyro;
    //document.getElementById("ygyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.y * 100) / 100;;
   //document.getElementById("zgyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.z * 100) / 100;
