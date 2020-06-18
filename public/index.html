@@ -92,7 +92,7 @@ if ('serviceWorker' in navigator) {
 		
  
    			var xgyro = Math.round(ereignis.accelerationIncludingGravity.x * 100) / 100;
-			padlx = padlx + xgyro;
+			padlx = padlx - xgyro;
 			
 			var ausgabe = "GAME OVER, SCORE: " + xgyro;
 			context.font = "25px Arial";
