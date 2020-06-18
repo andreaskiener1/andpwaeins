@@ -88,6 +88,18 @@ if ('serviceWorker' in navigator) {
 		
 		});
 		*/
+		window.ondevicemotion = function(ereignis){
+		
+ 
+    var xgyro = Math.round(ereignis.accelerationIncludingGravity.x * 100) / 100;
+			padlx = padlx + xgyro;
+    //document.getElementById("xgyro").innerHTML = xgyro;
+   //document.getElementById("ygyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.y * 100) / 100;;
+  //document.getElementById("zgyro").innerHTML = Math.round(ereignis.accelerationIncludingGravity.z * 100) / 100;
+		
+		
+		
+		}
 		timer = setInterval(draw, 5);
 		draw();
 	
